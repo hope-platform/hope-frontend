@@ -1,0 +1,22 @@
+{
+  "dashboard": {
+    "greeting_morning": "Good morning",
+    "greeting_afternoon": "Good afternoon",
+    "greeting_evening": "Good evening"
+  },
+  "navigation": {
+    "help_now": "Help Now",
+    "resources": "Resource Hub",
+    "specialists": "Find Specialist",
+    "notes": "Add Note"
+  },
+  "help_now": {
+    "title": "What is happening?",
+    "meltdown": "Meltdown",
+    "sensory": "Sensory Overload",
+    "transition": "Transition",
+    "school": "School Morning",
+    "bedtime": "Bedtime",
+    "other": "Other"
+  }
+}
