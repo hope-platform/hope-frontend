@@ -1,4 +1,8 @@
 import type { Config } from "tailwindcss";
+// tailwindcss-rtl ships no .d.ts file, so TypeScript can't infer its shape.
+// The plugin itself works fine at runtime — this comment silences the type error.
+// @ts-expect-error -- tailwindcss-rtl has no type declarations
+import tailwindcssRtl from "tailwindcss-rtl";
 
 const config: Config = {
   content: [
@@ -136,7 +140,9 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  // tailwindcss-rtl adds logical-direction utilities (ms-/me-/ps-/pe-)
+  // that flip correctly when the page is in RTL mode (Dari).
+  plugins: [tailwindcssRtl],
 };
 
 export default config;
