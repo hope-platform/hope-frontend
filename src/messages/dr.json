@@ -1,0 +1,22 @@
+{
+  "dashboard": {
+    "greeting_morning": "صبح بخیر",
+    "greeting_afternoon": "روز بخیر",
+    "greeting_evening": "عصر بخیر"
+  },
+  "navigation": {
+    "help_now": "کمک فوری",
+    "resources": "مرکز منابع",
+    "specialists": "یافتن متخصص",
+    "notes": "افزودن یادداشت"
+  },
+  "help_now": {
+    "title": "چه اتفاقی در حال رخ دادن است؟",
+    "meltdown": "بحران هیجانی",
+    "sensory": "اضافه‌بار حسی",
+    "transition": "تغییر فعالیت",
+    "school": "صبح مدرسه",
+    "bedtime": "وقت خواب",
+    "other": "موارد دیگر"
+  }
+}

@@ -18,8 +18,8 @@ Underserved communities first — Global South families who have no platform bui
 - TypeScript
 - Tailwind CSS
 - shadcn/ui
-- next-intl (English + French)
-- next-pwa (Offline support)
+- next-intl (English, French, Dari)
+- @serwist/next (Offline support)
 - Zustand
 - Framer Motion
 
