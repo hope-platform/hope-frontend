@@ -1,11 +1,11 @@
 import { getRequestConfig } from "next-intl/server";
 
-/** Supported languages in Hope */
-const locales = ["en", "fr"];
+/** Supported languages in Hope — English, French, Dari */
+const locales = ["en", "fr", "dr"];
 
 /**
  * next-intl configuration — loads the correct language file
- * based on the locale in the URL (en or fr)
+ * based on the locale in the URL (en, fr or dr)
  */
 export default getRequestConfig(async ({ requestLocale }) => {
   // Get the locale from the request
