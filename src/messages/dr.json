@@ -2,7 +2,12 @@
   "dashboard": {
     "greeting_morning": "صبح بخیر",
     "greeting_afternoon": "روز بخیر",
-    "greeting_evening": "عصر بخیر"
+    "greeting_evening": "عصر بخیر",
+    "subtitle": "نفس عمیقی بکشید. شما می‌توانید.",
+    "help_now_description": "راهنمایی گام‌به‌گام برای لحظات دشوار",
+    "resources_description": "راهنماهای کوتاه برای چالش‌های روزمره",
+    "specialists_description": "متخصصین تأیید شده و مقرون به صرفه نزدیک شما",
+    "notes_description": "ثبت الگوها و پیشرفت"
   },
   "navigation": {
     "help_now": "کمک فوری",
@@ -18,5 +23,8 @@
     "school": "صبح مدرسه",
     "bedtime": "وقت خواب",
     "other": "موارد دیگر"
+  },
+  "language": {
+    "label": "زبان"
   }
 }
