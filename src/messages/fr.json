@@ -2,7 +2,12 @@
   "dashboard": {
     "greeting_morning": "Bonjour",
     "greeting_afternoon": "Bon après-midi",
-    "greeting_evening": "Bonsoir"
+    "greeting_evening": "Bonsoir",
+    "subtitle": "Respirez profondément. Vous êtes capable.",
+    "help_now_description": "Guidance étape par étape pour les moments difficiles",
+    "resources_description": "Guides concis pour les défis du quotidien",
+    "specialists_description": "Spécialistes vérifiés et abordables près de vous",
+    "notes_description": "Suivez les schémas et les progrès"
   },
   "navigation": {
     "help_now": "Aide Maintenant",
@@ -18,5 +23,8 @@
     "school": "Matin d'École",
     "bedtime": "Heure du Coucher",
     "other": "Autre"
+  },
+  "language": {
+    "label": "Langue"
   }
 }
