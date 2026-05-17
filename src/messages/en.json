@@ -17,12 +17,21 @@
   },
   "help_now": {
     "title": "What is happening?",
-    "meltdown": "Meltdown",
-    "sensory": "Sensory Overload",
-    "transition": "Transition",
-    "school": "School Morning",
-    "bedtime": "Bedtime",
-    "other": "Other"
+    "subtitle": "Pick the closest situation. You can always switch.",
+    "step_label": "Step {current} of {total}",
+    "sources_label": "Sources",
+    "previous": "Previous",
+    "next": "Next",
+    "im_okay_now": "I'm okay now",
+    "translation_pending_banner": "These calm guides are still being translated. Showing in English for now.",
+    "triggers": {
+      "meltdown":   { "label": "Meltdown",         "description": "Big emotions, hard to reach" },
+      "sensory":    { "label": "Sensory Overload", "description": "Too much noise, light, touch" },
+      "transition": { "label": "Transition",       "description": "Moving between activities" },
+      "school":     { "label": "School Morning",   "description": "Leaving the house for school" },
+      "bedtime":    { "label": "Bedtime",          "description": "Winding down at night" },
+      "other":      { "label": "Something Else",   "description": "I'll pick a general strategy" }
+    }
   },
   "language": {
     "label": "Language"
