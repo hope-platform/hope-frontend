@@ -17,12 +17,21 @@
   },
   "help_now": {
     "title": "چه اتفاقی در حال رخ دادن است؟",
-    "meltdown": "بحران هیجانی",
-    "sensory": "اضافه‌بار حسی",
-    "transition": "تغییر فعالیت",
-    "school": "صبح مدرسه",
-    "bedtime": "وقت خواب",
-    "other": "موارد دیگر"
+    "subtitle": "نزدیک‌ترین وضعیت را انتخاب کنید. همیشه می‌توانید تغییر دهید.",
+    "step_label": "مرحله {current} از {total}",
+    "sources_label": "منابع",
+    "previous": "قبلی",
+    "next": "بعدی",
+    "im_okay_now": "اکنون خوبم",
+    "translation_pending_banner": "این راهنماهای آرامش‌بخش هنوز در حال ترجمه هستند. در حال حاضر به انگلیسی نمایش داده می‌شوند.",
+    "triggers": {
+      "meltdown":   { "label": "بحران هیجانی", "description": "احساسات شدید، رسیدن سخت است" },
+      "sensory":    { "label": "اضافه‌بار حسی","description": "صدا، نور، لمس بیش از حد" },
+      "transition": { "label": "تغییر فعالیت", "description": "حرکت بین فعالیت‌ها" },
+      "school":     { "label": "صبح مدرسه",    "description": "خروج از خانه به مدرسه" },
+      "bedtime":    { "label": "وقت خواب",     "description": "آرامش شبانه" },
+      "other":      { "label": "موضوع دیگر",   "description": "یک راهبرد عمومی انتخاب می‌کنم" }
+    }
   },
   "language": {
     "label": "زبان"

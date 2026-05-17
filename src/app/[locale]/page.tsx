@@ -1,6 +1,7 @@
 import { BookOpen, HeartPulse, LifeBuoy, NotebookPen } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
+import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { Greeting } from "@/components/dashboard/Greeting";
 import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
 
@@ -9,22 +10,23 @@ import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
  * the app. Mobile-first layout (max-w-md), built on Hope design tokens.
  *
  * Layout (top → bottom):
- *   - Language switcher (right-aligned)
+ *   - Top bar: Hope logo + wordmark (left) · language switcher (right)
  *   - Time-of-day greeting + subtitle
  *   - Help Now card (Forest Deep, most prominent)
  *   - Three secondary cards: Resource Hub · Find Specialist · Add Note
  *
- * Card hrefs point at routes we haven't built yet — those are the Day 5+ work.
+ * The persistent BottomNav is mounted in [locale]/layout.tsx, not here.
  */
 export default function Home() {
   const locale = useLocale();
   const t = useTranslations();
 
   return (
-    <main className="min-h-screen bg-hope-bg">
+    <main className="bg-hope-bg">
       <div className="mx-auto flex w-full max-w-md flex-col gap-section-gap px-screen-h py-section-gap">
-        {/* Language switcher — top of page, right-aligned */}
-        <div className="flex justify-end">
+        {/* Top bar — logo on the left, language switcher on the right */}
+        <div className="flex items-center justify-between gap-3">
+          <DashboardHeader />
           <LanguageSwitcher />
         </div>
 

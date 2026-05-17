@@ -17,12 +17,21 @@
   },
   "help_now": {
     "title": "Que se passe-t-il ?",
-    "meltdown": "Crise",
-    "sensory": "Surcharge Sensorielle",
-    "transition": "Transition",
-    "school": "Matin d'École",
-    "bedtime": "Heure du Coucher",
-    "other": "Autre"
+    "subtitle": "Choisissez la situation la plus proche. Vous pouvez toujours changer.",
+    "step_label": "Étape {current} sur {total}",
+    "sources_label": "Sources",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "im_okay_now": "Ça va mieux",
+    "translation_pending_banner": "Ces guides apaisants sont en cours de traduction. Affichage en anglais pour le moment.",
+    "triggers": {
+      "meltdown":   { "label": "Crise",                "description": "Grandes émotions, difficile à atteindre" },
+      "sensory":    { "label": "Surcharge Sensorielle", "description": "Trop de bruit, de lumière, de contact" },
+      "transition": { "label": "Transition",           "description": "Passage entre activités" },
+      "school":     { "label": "Matin d'École",        "description": "Quitter la maison pour l'école" },
+      "bedtime":    { "label": "Heure du Coucher",     "description": "Apaisement du soir" },
+      "other":      { "label": "Autre chose",          "description": "Je choisirai une stratégie générale" }
+    }
   },
   "language": {
     "label": "Langue"
