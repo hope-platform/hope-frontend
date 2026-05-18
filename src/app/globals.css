@@ -3,109 +3,71 @@
 @tailwind utilities;
 
 /* ============================================================
-   Hope — Design Tokens
-   Mirrored from colors_and_type.css (single source of truth).
-   tailwind.config.ts points its theme at these CSS variables, so
-   Tailwind classes (e.g. bg-forest-deep) AND raw CSS (var(--forest-deep))
-   both work side by side.
+   Hope — Design Tokens (MVP palette)
+   Single source of truth. tailwind.config.ts reads these CSS
+   variables so both Tailwind classes (bg-teal) AND raw CSS
+   (var(--teal)) work side by side.
    ============================================================ */
 @layer base {
   :root {
-    /* — shadcn/ui tokens — kept: the existing Button component still uses them — */
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --primary: 158 64% 52%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --border: 214.3 31.8% 91.4%;
-    --radius: 0.5rem;
+    /* ── shadcn/ui tokens ────────────────────────────────────
+       Mapped to Hope colours so the stock shadcn Button looks
+       like a Hope dark button by default, without rewriting it. */
+    --background:           43 38% 92%;   /* cream  #F4F0E4 */
+    --foreground:           170 10% 18%;  /* ink    #2A3331 */
+    --card:                 43 47% 97%;   /* paper  #FBF9F3 */
+    --card-foreground:      170 10% 18%;
+    --popover:              43 47% 97%;
+    --popover-foreground:   170 10% 18%;
+    --primary:              170 10% 18%;  /* ink — used by shadcn Button default */
+    --primary-foreground:   43 38% 92%;   /* cream — text on dark */
+    --secondary:            130 13% 92%;  /* mist   #E8EFE9 */
+    --secondary-foreground: 170 47% 22%;  /* teal-d #246456 */
+    --muted:                47 50% 94%;   /* paper-2 #F8F4E8 */
+    --muted-foreground:     170 8% 38%;
+    --accent:               2 71% 73%;    /* coral  #EC8F8D */
+    --accent-foreground:    0 0% 100%;
+    --destructive:          0 65% 64%;
+    --destructive-foreground: 0 0% 100%;
+    --border:               170 8% 88%;
+    --input:                170 8% 88%;
+    --ring:                 170 47% 35%;
+    --radius: 0.75rem;
 
-    /* — Hope brand colour primitives — */
-    --forest-deep:   #1b4d35;
-    --ember-warm:    #c17d3c;
-    --dusk-violet:   #7b5ea7;
-    --pebble-cream:  #f9f6f2;
-    --sage-mist:     #e8f3ee;
-    --sand-glow:     #fdf3e7;
-    --lavender-haze: #f0ebf8;
-    --bark-text:     #2c2420;
+    /* ── Hope brand primitives ────────────────────────────── */
+    --cream:    #F4F0E4;
+    --paper:    #FBF9F3;
+    --paper-2:  #F8F4E8;
 
-    /* tints & shades */
-    --forest-deep-light: #2a6b4a;
-    --forest-deep-dark:  #12331f;
-    --ember-warm-light:  #d4975a;
-    --ember-warm-dark:   #a06428;
-    --dusk-violet-light: #9b7ec0;
-    --dusk-violet-dark:  #5e4582;
+    --teal:     #2F8276;
+    --teal-d:   #246456;
+    --teal-l:   #44A194;
 
-    /* neutrals */
-    --white:        #ffffff;
-    --bark-text-60: rgba(44, 36, 32, 0.6);
-    --bark-text-30: rgba(44, 36, 32, 0.3);
-    --bark-text-08: rgba(44, 36, 32, 0.08);
+    --slate:    #537D96;
+    --slate-d:  #3F627A;
+    --slate-l:  #EAEFF3;
 
-    /* — semantic colour aliases — */
-    --color-bg:               var(--pebble-cream);
-    --color-surface:          var(--sage-mist);
-    --color-surface-white:    var(--white);
-    --color-primary:          var(--forest-deep);
-    --color-primary-hover:    var(--forest-deep-dark);
-    --color-accent:           var(--ember-warm);
-    --color-accent-hover:     var(--ember-warm-dark);
-    --color-feature-mood:     var(--dusk-violet);
-    --color-feature-notes:    var(--sand-glow);
-    --color-feature-learn:    var(--lavender-haze);
-    --color-text:             var(--bark-text);
-    --color-text-secondary:   var(--bark-text-60);
-    --color-text-placeholder: var(--bark-text-30);
-    --color-border:           var(--bark-text-08);
-    --color-scrim:            rgba(44, 36, 32, 0.4);
+    --coral:    #EC8F8D;
+    --coral-d:  #D7706E;
+    --coral-l:  #F7E4E1;
 
-    /* — feature surface colours — */
-    --surface-mood:    #f0ebf8;
-    --surface-learn:   var(--lavender-haze);
-    --surface-notes:   var(--sand-glow);
-    --surface-help:    var(--forest-deep);
-    --surface-success: var(--sage-mist);
+    --mist:     #E8EFE9;
+    --sand:     #EFE6D2;
+    --sand-l:   #F2EEE2;
+    --sand-d:   #7A5C2F;
 
-    /* — spacing scale (numeric) — */
-    --space-1:  4px;
-    --space-2:  8px;
-    --space-3:  12px;
-    --space-4:  16px;
-    --space-5:  20px;
-    --space-6:  24px;
-    --space-8:  32px;
-    --space-10: 40px;
-    --space-12: 48px;
-    --space-16: 64px;
+    --ink:      #2A3331;
+    --ink-90:   rgba(42, 51, 49, 0.92);
+    --ink-70:   rgba(42, 51, 49, 0.70);
+    --ink-55:   rgba(42, 51, 49, 0.55);
+    --ink-35:   rgba(42, 51, 49, 0.35);
+    --ink-15:   rgba(42, 51, 49, 0.15);
+    --ink-08:   rgba(42, 51, 49, 0.08);
+    --ink-05:   rgba(42, 51, 49, 0.05);
 
-    /* — semantic spacing — */
-    --spacing-screen-h:    20px; /* horizontal screen margin     */
-    --spacing-card-pad:    16px; /* card internal padding        */
-    --spacing-section-gap: 24px; /* between sections             */
-    --spacing-nav-height:  64px; /* bottom nav bar height        */
-    --spacing-help-btn-h:  56px; /* Help Now button height       */
-
-    /* — border radius — */
-    --radius-sm:   8px;    /* small inputs, minor elements */
-    --radius-md:  16px;    /* cards, standard containers   */
-    --radius-lg:  24px;    /* modals, bottom sheets        */
-    --radius-pill: 999px;  /* pills, tags, chips           */
-
-    /* — shadow system — */
-    --shadow-card:  0 2px 8px  rgba(0, 0, 0, 0.06);
-    --shadow-modal: 0 8px 32px rgba(0, 0, 0, 0.12);
-    --shadow-nav:   0 -1px 0   var(--color-border);
-
-    /* — typography — */
-    /* `--font-inter` and `--font-instrument-serif` are provided by next/font
-       on the <html> element. The full stacks below give us safe fallbacks. */
-    --font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-    --font-serif:  var(--font-instrument-serif), Georgia, serif;
+    /* ── Typography (next/font provides --font-inter & --font-instrument-serif) ── */
+    --font-sans:  var(--font-inter), system-ui, -apple-system, sans-serif;
+    --font-serif: var(--font-instrument-serif), Georgia, serif;
 
     --font-weight-regular:  400;
     --font-weight-medium:   500;
@@ -119,17 +81,54 @@
     --text-xl:   24px;
     --text-2xl:  28px;
     --text-3xl:  32px;
+    --text-4xl:  40px;
+    --text-5xl:  56px;
 
-    --leading-tight:  1.25;
+    --leading-tight:  1.1;
     --leading-snug:   1.35;
     --leading-normal: 1.5;
     --leading-loose:  1.65;
 
-    /* — animation — */
+    /* ── Spacing scale ────────────────────────────────────── */
+    --space-1:  4px;
+    --space-2:  8px;
+    --space-3:  12px;
+    --space-4:  16px;
+    --space-5:  20px;
+    --space-6:  24px;
+    --space-8:  32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    --space-16: 64px;
+
+    /* Semantic spacing aliases */
+    --spacing-screen-h:    20px;
+    --spacing-card-pad:    20px;
+    --spacing-section-gap: 28px;
+    --spacing-nav-height:  64px;
+    --spacing-help-btn-h:  56px;
+
+    /* ── Border radius ────────────────────────────────────── */
+    --radius-sm:    8px;
+    --radius-md:   14px;
+    --radius-lg:   20px;
+    --radius-xl:   28px;
+    --radius-pill: 999px;
+
+    /* ── Shadows ──────────────────────────────────────────── */
+    --shadow-sm: 0 1px 2px rgba(42, 51, 49, 0.05);
+    --shadow-md: 0 6px 18px -8px rgba(42, 51, 49, 0.18), 0 2px 6px rgba(42, 51, 49, 0.04);
+    --shadow-lg: 0 16px 40px -16px rgba(42, 51, 49, 0.22), 0 4px 12px rgba(42, 51, 49, 0.05);
+
+    --shadow-card: var(--shadow-sm);
+    --shadow-modal: var(--shadow-lg);
+    --shadow-nav:   0 -1px 0 var(--ink-08);
+
+    /* ── Motion ───────────────────────────────────────────── */
     --transition-fast:  150ms ease-out;
     --transition-base:  200ms ease-out;
-    --transition-modal: 300ms ease-in-out;
-    --transition-none:  0ms;        /* Help Now — instant response */
+    --transition-modal: 300ms cubic-bezier(.2, .7, .2, 1);
+    --transition-none:  0ms;
   }
 }
 
@@ -137,12 +136,36 @@
   * {
     @apply border-border;
   }
-  body {
-    @apply bg-background text-foreground font-sans;
+  html, body {
+    @apply bg-cream text-ink font-sans;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 }
 
-/* Right-to-left support — used when the locale is Dari (dr) */
+/* RTL support (Dari) */
 [dir="rtl"] {
   text-align: right;
 }
+
+/* Pulse animation (Help Now coral dot) */
+@keyframes hope-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(236, 143, 141, 0.7); }
+  70%  { box-shadow: 0 0 0 12px rgba(236, 143, 141, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(236, 143, 141, 0); }
+}
+.hope-pulse { animation: hope-pulse 2.4s infinite; }
+
+/* Breathing ring (Help Now overlay) */
+@keyframes hope-breathe {
+  0%, 100% { transform: scale(0.85); }
+  40%, 60% { transform: scale(1.15); }
+}
+.hope-breathe { animation: hope-breathe 10s ease-in-out infinite; }
+
+/* Fade-in (generic page transition) */
+@keyframes hope-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.hope-fade-in { animation: hope-fade-in 260ms cubic-bezier(.2, .7, .2, 1); }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type GreetingKey =
@@ -8,35 +9,77 @@ type GreetingKey =
   | "greeting_afternoon"
   | "greeting_evening";
 
+interface GreetingProps {
+  /**
+   * The parent's first name. When provided, the greeting becomes
+   * "Good morning, [name]." with [name] rendered in Instrument Serif
+   * italic teal. Falls back to "common.default_name" when omitted.
+   */
+  name?: string;
+}
+
 /**
- * Renders a calm time-of-day greeting in Instrument Serif, followed by the
- * subtitle in Inter. The hour is read from the user's local clock (browser),
- * not the server, so it's always correct no matter where the server is.
+ * Time-of-day greeting hero — the first thing on the Dashboard.
  *
- * To avoid a hydration mismatch on the first render, we start with "morning"
- * as a stable default and then correct it inside useEffect after mount.
+ *   ☀  Tuesday, 16 May
+ *   Good morning, *Sarah.*       ← name is serif italic teal
+ *   A calm place to find help…
+ *
+ * The hour is read client-side so the greeting is correct regardless
+ * of server timezone. We start with a stable default and correct it
+ * inside useEffect to avoid hydration mismatches.
  */
-export function Greeting() {
+export function Greeting({ name }: GreetingProps) {
   const t = useTranslations("dashboard");
-  const [greetingKey, setGreetingKey] = useState<GreetingKey>("greeting_morning");
+  const tCommon = useTranslations("common");
+
+  const [greetingKey, setGreetingKey] =
+    useState<GreetingKey>("greeting_morning");
+  const [dateLabel, setDateLabel] = useState<string>("");
+  const [isEvening, setIsEvening] = useState(false);
 
   useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) {
-      setGreetingKey("greeting_morning");
-    } else if (hour < 18) {
-      setGreetingKey("greeting_afternoon");
-    } else {
-      setGreetingKey("greeting_evening");
-    }
+    const now = new Date();
+    const hour = now.getHours();
+
+    if (hour < 12)      setGreetingKey("greeting_morning");
+    else if (hour < 17) setGreetingKey("greeting_afternoon");
+    else                setGreetingKey("greeting_evening");
+
+    setIsEvening(hour >= 17);
+
+    setDateLabel(
+      now.toLocaleDateString(undefined, {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+      }),
+    );
   }, []);
+
+  const displayName = name || tCommon("default_name");
 
   return (
     <header>
-      <h1 className="font-serif text-3xl leading-snug text-bark-text">
-        {t(greetingKey)}
+      <div className="flex items-center gap-2.5 text-ink-55">
+        {isEvening ? (
+          <Moon className="h-4 w-4 text-coral" aria-hidden="true" />
+        ) : (
+          <Sun className="h-4 w-4 text-coral" aria-hidden="true" />
+        )}
+        <span className="text-sm">{dateLabel || "\u00A0"}</span>
+      </div>
+
+      <h1 className="mt-3 text-4xl font-medium leading-tight tracking-tight md:text-5xl">
+        {t(greetingKey)},{" "}
+        <span className="font-serif italic font-regular text-teal">
+          {displayName}.
+        </span>
       </h1>
-      <p className="mt-2 text-md text-hope-text-secondary">{t("subtitle")}</p>
+
+      <p className="mt-3 max-w-xl text-base leading-loose text-ink-70 md:text-md">
+        {t("subtitle")}
+      </p>
     </header>
   );
 }

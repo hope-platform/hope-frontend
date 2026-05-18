@@ -1,5 +1,17 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Hope — Tailwind config (MVP palette)
+ *
+ * Tokens point at CSS variables defined in `src/app/globals.css`.
+ *   - Tailwind classes like `bg-teal` work out of the box
+ *   - Raw CSS like `background: var(--teal)` also works
+ *   - Changing a colour means editing globals.css only
+ *
+ * shadcn primitives (--background, --foreground, --primary, …) are
+ * remapped in globals.css to Hope colours, so the stock shadcn Button
+ * already looks like a Hope dark button without rewriting it.
+ */
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,134 +21,130 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // — shadcn/ui tokens (kept: the existing Button component depends on them) —
+        // ── shadcn primitives (read from HSL in globals.css) ──
         border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
         },
-
-        // — Hope brand primitives —
-        "forest-deep": {
-          DEFAULT: "var(--forest-deep)",
-          light: "var(--forest-deep-light)",
-          dark: "var(--forest-deep-dark)",
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
-        "ember-warm": {
-          DEFAULT: "var(--ember-warm)",
-          light: "var(--ember-warm-light)",
-          dark: "var(--ember-warm-dark)",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        "dusk-violet": {
-          DEFAULT: "var(--dusk-violet)",
-          light: "var(--dusk-violet-light)",
-          dark: "var(--dusk-violet-dark)",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
-        "pebble-cream": "var(--pebble-cream)",
-        "sage-mist": "var(--sage-mist)",
-        "sand-glow": "var(--sand-glow)",
-        "lavender-haze": "var(--lavender-haze)",
-        "bark-text": {
-          DEFAULT: "var(--bark-text)",
-          60: "var(--bark-text-60)",
-          30: "var(--bark-text-30)",
-          "08": "var(--bark-text-08)",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
 
-        // — Hope semantic aliases —
-        "hope-bg": "var(--color-bg)",
-        "hope-surface": "var(--color-surface)",
-        "hope-surface-white": "var(--color-surface-white)",
-        "hope-primary": "var(--color-primary)",
-        "hope-primary-hover": "var(--color-primary-hover)",
-        "hope-accent": "var(--color-accent)",
-        "hope-accent-hover": "var(--color-accent-hover)",
-        "hope-text": "var(--color-text)",
-        "hope-text-secondary": "var(--color-text-secondary)",
-        "hope-text-placeholder": "var(--color-text-placeholder)",
-        "hope-border": "var(--color-border)",
-        "hope-scrim": "var(--color-scrim)",
-        "feature-mood": "var(--color-feature-mood)",
-        "feature-notes": "var(--color-feature-notes)",
-        "feature-learn": "var(--color-feature-learn)",
+        // ── Hope MVP palette ──
+        cream:    "var(--cream)",
+        paper:    "var(--paper)",
+        "paper-2": "var(--paper-2)",
 
-        // — Hope feature surfaces —
-        "surface-mood": "var(--surface-mood)",
-        "surface-learn": "var(--surface-learn)",
-        "surface-notes": "var(--surface-notes)",
-        "surface-help": "var(--surface-help)",
-        "surface-success": "var(--surface-success)",
+        teal:  { DEFAULT: "var(--teal)",  d: "var(--teal-d)",  l: "var(--teal-l)"  },
+        slate: { DEFAULT: "var(--slate)", d: "var(--slate-d)", l: "var(--slate-l)" },
+        coral: { DEFAULT: "var(--coral)", d: "var(--coral-d)", l: "var(--coral-l)" },
+
+        mist: "var(--mist)",
+        sand: { DEFAULT: "var(--sand)", l: "var(--sand-l)", d: "var(--sand-d)" },
+
+        ink: {
+          DEFAULT: "var(--ink)",
+          90:      "var(--ink-90)",
+          70:      "var(--ink-70)",
+          55:      "var(--ink-55)",
+          35:      "var(--ink-35)",
+          15:      "var(--ink-15)",
+          "08":    "var(--ink-08)",
+          "05":    "var(--ink-05)",
+        },
       },
 
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
+        sans:  ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
         serif: ["var(--font-instrument-serif)", "Georgia", "serif"],
       },
 
       fontSize: {
-        xs: "var(--text-xs)",
-        sm: "var(--text-sm)",
-        base: "var(--text-base)",
-        md: "var(--text-md)",
-        lg: "var(--text-lg)",
-        xl: "var(--text-xl)",
+        xs:    "var(--text-xs)",
+        sm:    "var(--text-sm)",
+        base:  "var(--text-base)",
+        md:    "var(--text-md)",
+        lg:    "var(--text-lg)",
+        xl:    "var(--text-xl)",
         "2xl": "var(--text-2xl)",
         "3xl": "var(--text-3xl)",
+        "4xl": "var(--text-4xl)",
+        "5xl": "var(--text-5xl)",
       },
 
       lineHeight: {
-        tight: "var(--leading-tight)",
-        snug: "var(--leading-snug)",
+        tight:  "var(--leading-tight)",
+        snug:   "var(--leading-snug)",
         normal: "var(--leading-normal)",
-        loose: "var(--leading-loose)",
+        loose:  "var(--leading-loose)",
       },
 
       fontWeight: {
-        regular: "var(--font-weight-regular)",
-        medium: "var(--font-weight-medium)",
+        regular:  "var(--font-weight-regular)",
+        medium:   "var(--font-weight-medium)",
         semibold: "var(--font-weight-semibold)",
       },
 
       spacing: {
-        "screen-h": "var(--spacing-screen-h)",
-        "card-pad": "var(--spacing-card-pad)",
-        "section-gap": "var(--spacing-section-gap)",
+        "screen-h":   "var(--spacing-screen-h)",
+        "card-pad":   "var(--spacing-card-pad)",
+        "section-gap":"var(--spacing-section-gap)",
         "nav-height": "var(--spacing-nav-height)",
         "help-btn-h": "var(--spacing-help-btn-h)",
       },
 
       borderRadius: {
-        // shadcn/ui (kept so the existing Button component doesn't change shape)
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        // Hope radii — named for what they're used on
-        field: "var(--radius-sm)",   //   8px  — inputs, small elements
-        card: "var(--radius-md)",    //  16px  — cards, standard containers
-        sheet: "var(--radius-lg)",   //  24px  — modals, bottom sheets
-        pill: "var(--radius-pill)",  // 999px  — pills, tags, chips
+        field: "var(--radius-sm)",
+        btn:   "var(--radius-md)",
+        card:  "var(--radius-lg)",
+        sheet: "var(--radius-xl)",
+        hero:  "var(--radius-xl)",
+        pill:  "var(--radius-pill)",
       },
 
       boxShadow: {
-        card: "var(--shadow-card)",
+        "hope-sm": "var(--shadow-sm)",
+        "hope-md": "var(--shadow-md)",
+        "hope-lg": "var(--shadow-lg)",
+        card:  "var(--shadow-card)",
         modal: "var(--shadow-modal)",
-        nav: "var(--shadow-nav)",
+        nav:   "var(--shadow-nav)",
       },
 
-      transitionDuration: {
-        fast: "150ms",
-        base: "200ms",
-        modal: "300ms",
-      },
+      transitionTimingFunction: { hope: "cubic-bezier(.2, .7, .2, 1)" },
+      transitionDuration: { fast: "150ms", base: "200ms", modal: "300ms" },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-rtl")],
 };
 
 export default config;
