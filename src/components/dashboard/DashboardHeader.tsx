@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { Heart } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 
 /**
- * Dashboard top header: Hope brand mark (teal box + heart + coral dot)
- * with the "Hope" wordmark and a small subline. The whole header is a
+ * Dashboard top header: the designed Hope icon (from /public/favicon/favicon.svg)
+ * next to the "Hope" wordmark and a small subline. The whole header is a
  * Link back to the Dashboard so it doubles as a "home" tap target.
  *
- * Inline icon — the mark is part of the brand, not a swappable asset.
+ * Using a plain <img> rather than next/image because the SVG already wraps a
+ * pre-sized raster — Next's optimiser would add no value and would force us
+ * to allow SVGs in next.config.
  */
 export function DashboardHeader() {
   const locale = useLocale();
@@ -19,14 +20,17 @@ export function DashboardHeader() {
       aria-label={`${t("brand_name")} — home`}
       className="inline-flex items-center gap-3"
     >
-      {/* Brand mark — teal square with heart, coral dot top-right */}
-      <span className="relative grid h-10 w-10 place-items-center rounded-[11px] bg-teal">
-        <Heart className="h-5 w-5 text-white" strokeWidth={2} aria-hidden="true" />
-        <span
-          className="absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full bg-coral"
-          aria-hidden="true"
-        />
-      </span>
+      {/* The designed Hope icon mark.
+          Using the 192px PNG (not favicon.svg) because the SVG file Real-
+          FaviconGenerator produced is an empty wrapper with no embedded
+          image data. The PNG is the actual designed art. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/favicon/web-app-manifest-192x192.png"
+        alt=""
+        aria-hidden="true"
+        className="h-10 w-10 rounded-[10px]"
+      />
 
       {/* Wordmark + subline */}
       <span className="leading-tight">

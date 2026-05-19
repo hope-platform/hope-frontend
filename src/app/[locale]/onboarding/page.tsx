@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowRight, Check, Heart } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { useHasHydrated, useHopeStore, type Locale } from "@/lib/store";
 
 type Step = "welcome" | "language" | "name";
@@ -158,12 +158,15 @@ function WelcomeView({
 }) {
   return (
     <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col justify-between gap-10 px-5 py-12 md:py-16">
-      {/* Soft brand mark */}
+      {/* Soft brand mark — the designed Hope icon (PNG; the SVG wrapper is empty) */}
       <div className="flex flex-col items-start gap-8">
-        <span className="relative grid h-12 w-12 place-items-center rounded-[13px] bg-teal">
-          <Heart className="h-6 w-6 text-white" strokeWidth={2} aria-hidden="true" />
-          <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-coral" aria-hidden="true" />
-        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/favicon/web-app-manifest-192x192.png"
+          alt=""
+          aria-hidden="true"
+          className="h-12 w-12 rounded-xl"
+        />
 
         <header>
           <h1 className="font-serif text-4xl italic leading-tight text-ink md:text-5xl">
