@@ -6,15 +6,16 @@ interface TriggerCardProps {
   description: string;
   Icon: LucideIcon;
   href: string;
-  /** Tailwind class for the small icon-circle background (e.g. "bg-sand-glow") */
+  /** Tailwind class for the icon-circle background (e.g. "bg-coral-l") */
   iconBgClassName: string;
-  /** Tailwind class for the icon's own colour (e.g. "text-ember-warm") */
+  /** Tailwind class for the icon's own colour (e.g. "text-coral-d") */
   iconColorClassName: string;
 }
 
 /**
  * One tappable trigger chip in the Help Now picker grid.
- * Two columns on mobile, surface-white card, coloured icon badge per trigger.
+ * Two columns on mobile, paper card with soft ink-05 border, coloured
+ * icon badge per trigger.
  */
 export function TriggerCard({
   title,
@@ -27,21 +28,26 @@ export function TriggerCard({
   return (
     <Link
       href={href}
-      className="flex flex-col gap-3 rounded-card border border-hope-border bg-hope-surface-white p-card-pad transition-colors duration-base hover:border-bark-text-30"
+      className="
+        group flex flex-col gap-3 rounded-card border border-ink-05 bg-paper p-5
+        transition-all duration-base
+        hover:-translate-y-0.5 hover:border-ink-15
+        focus:outline-none focus-visible:ring-2 focus-visible:ring-teal focus-visible:ring-offset-2 focus-visible:ring-offset-cream
+      "
     >
       <span
-        className={`flex h-9 w-9 items-center justify-center rounded-pill ${iconBgClassName}`}
+        className={`flex h-10 w-10 items-center justify-center rounded-btn ${iconBgClassName}`}
       >
-        <Icon className={`h-5 w-5 ${iconColorClassName}`} aria-hidden="true" />
+        <Icon className={`h-5 w-5 ${iconColorClassName}`} strokeWidth={1.8} aria-hidden="true" />
       </span>
-      <div>
-        <h2 className="text-base font-medium leading-snug text-bark-text">
+      <span className="block">
+        <span className="block text-base font-medium leading-snug text-ink">
           {title}
-        </h2>
-        <p className="mt-1 text-xs leading-snug text-hope-text-secondary">
+        </span>
+        <span className="mt-1 block text-xs leading-snug text-ink-55">
           {description}
-        </p>
-      </div>
+        </span>
+      </span>
     </Link>
   );
 }

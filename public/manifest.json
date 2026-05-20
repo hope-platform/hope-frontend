@@ -1,11 +1,11 @@
 {
   "name": "Hope — Autism Family Support",
   "short_name": "Hope",
-  "description": "Support for parents of autistic children",
+  "description": "A calm companion for parents of autistic children",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F9F6F2",
-  "theme_color": "#1B4D35",
+  "background_color": "#F4F0E4",
+  "theme_color": "#2F8276",
   "orientation": "portrait",
   "icons": [
     {

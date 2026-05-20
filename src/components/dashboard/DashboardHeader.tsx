@@ -1,32 +1,45 @@
 import Link from "next/link";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 /**
- * Dashboard top header: Hope icon mark + "Hope" wordmark in Instrument Serif.
- * The whole header is a Link back to the Dashboard, so it doubles as a "home"
- * tap target from any sub-screen that chooses to render it.
+ * Dashboard top header: the designed Hope icon (from /public/favicon/favicon.svg)
+ * next to the "Hope" wordmark and a small subline. The whole header is a
+ * Link back to the Dashboard so it doubles as a "home" tap target.
+ *
+ * Using a plain <img> rather than next/image because the SVG already wraps a
+ * pre-sized raster — Next's optimiser would add no value and would force us
+ * to allow SVGs in next.config.
  */
 export function DashboardHeader() {
   const locale = useLocale();
+  const t = useTranslations("common");
 
   return (
     <Link
       href={`/${locale}`}
-      aria-label="Hope home"
-      className="inline-flex items-center gap-2"
+      aria-label={`${t("brand_name")} — home`}
+      className="inline-flex items-center gap-3"
     >
-      {/* The favicon SVG also serves as our small brand mark. Using a plain
-          <img> here (not next/image) because SVGs from /public don't benefit
-          from Next's optimiser and a 24-byte tag is simpler to reason about. */}
+      {/* The designed Hope icon mark.
+          Using the 192px PNG (not favicon.svg) because the SVG file Real-
+          FaviconGenerator produced is an empty wrapper with no embedded
+          image data. The PNG is the actual designed art. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/favicon/favicon.svg"
+        src="/favicon/web-app-manifest-192x192.png"
         alt=""
         aria-hidden="true"
-        className="h-8 w-auto"
+        className="h-10 w-10 rounded-[10px]"
       />
-      <span className="font-serif text-2xl leading-none text-bark-text">
-        Hope
+
+      {/* Wordmark + subline */}
+      <span className="leading-tight">
+        <span className="block text-base font-medium tracking-tight text-ink">
+          {t("brand_name")}
+        </span>
+        <span className="block text-[11px] text-ink-55">
+          {t("brand_subtitle")}
+        </span>
       </span>
     </Link>
   );

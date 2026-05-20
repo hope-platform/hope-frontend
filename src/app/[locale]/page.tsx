@@ -1,71 +1,83 @@
-import { BookOpen, HeartPulse, LifeBuoy, NotebookPen } from "lucide-react";
+"use client";
+
+import { BookOpen, NotebookPen, Users } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { DashboardCard } from "@/components/dashboard/DashboardCard";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { FeatureCard } from "@/components/dashboard/FeatureCard";
 import { Greeting } from "@/components/dashboard/Greeting";
+import { HelpNowHero } from "@/components/dashboard/HelpNowHero";
 import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { OfflineStrip } from "@/components/dashboard/OfflineStrip";
+import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
+import { useHopeStore } from "@/lib/store";
 
 /**
- * Hope's home / Dashboard screen — the first thing parents see when they open
- * the app. Mobile-first layout (max-w-md), built on Hope design tokens.
+ * Hope — Dashboard (the first screen a parent sees).
  *
- * Layout (top → bottom):
- *   - Top bar: Hope logo + wordmark (left) · language switcher (right)
- *   - Time-of-day greeting + subtitle
- *   - Help Now card (Forest Deep, most prominent)
- *   - Three secondary cards: Resource Hub · Find Specialist · Add Note
+ * Vertical rhythm:
+ *   1. Top bar — brand + language switcher
+ *   2. Greeting — time of day, date, name, subtitle
+ *   3. Help Now hero — dark ink, prominent, full width
+ *   4. Three feature cards — Resource Hub · Find a Specialist · Add a Note
+ *   5. Offline reassurance strip
  *
- * The persistent BottomNav is mounted in [locale]/layout.tsx, not here.
+ * Mobile-first. On md+ the feature cards become a 3-column grid.
+ * Persistent BottomNav lives in [locale]/layout.tsx, not here.
+ *
+ * Note: this is a "use client" page because it reads the user's name
+ * from the Zustand store and shows it in the Greeting. Onboarding
+ * redirect is handled inside OnboardingGate.
  */
 export default function Home() {
   const locale = useLocale();
-  const t = useTranslations();
+  const t = useTranslations("dashboard");
+  const tNav = useTranslations("navigation");
+  const name = useHopeStore((s) => s.name);
 
   return (
-    <main className="bg-hope-bg">
-      <div className="mx-auto flex w-full max-w-md flex-col gap-section-gap px-screen-h py-section-gap">
-        {/* Top bar — logo on the left, language switcher on the right */}
-        <div className="flex items-center justify-between gap-3">
+    <main className="bg-cream">
+      <OnboardingGate />
+
+      <div className="mx-auto flex w-full max-w-2xl flex-col gap-7 px-5 py-7 md:px-8 md:py-10">
+
+        {/* ── Top bar: brand + language ────────────────────── */}
+        <header className="flex items-center justify-between gap-4">
           <DashboardHeader />
           <LanguageSwitcher />
+        </header>
+
+        {/* ── Body ────────────────────────────────────────── */}
+        <div className="hope-fade-in flex flex-col gap-7">
+          <Greeting name={name ?? undefined} />
+
+          <HelpNowHero href={`/${locale}/help-now`} />
+
+          <div className="grid grid-cols-1 gap-3.5 md:grid-cols-3">
+            <FeatureCard
+              scheme="resources"
+              title={tNav("resources")}
+              description={t("resources_description")}
+              Icon={BookOpen}
+              href={`/${locale}/resources`}
+            />
+            <FeatureCard
+              scheme="specialists"
+              title={tNav("specialists")}
+              description={t("specialists_description")}
+              Icon={Users}
+              href={`/${locale}/specialists`}
+            />
+            <FeatureCard
+              scheme="notes"
+              title={tNav("notes")}
+              description={t("notes_description")}
+              Icon={NotebookPen}
+              href={`/${locale}/notes`}
+            />
+          </div>
+
+          <OfflineStrip />
         </div>
-
-        {/* Time-of-day greeting + subtitle */}
-        <Greeting />
-
-        {/* Help Now — the most prominent card, full-width Forest Deep */}
-        <DashboardCard
-          variant="primary"
-          title={t("navigation.help_now")}
-          description={t("dashboard.help_now_description")}
-          Icon={LifeBuoy}
-          href={`/${locale}/help-now`}
-        />
-
-        {/* Three secondary cards */}
-        <DashboardCard
-          title={t("navigation.resources")}
-          description={t("dashboard.resources_description")}
-          Icon={BookOpen}
-          href={`/${locale}/resources`}
-          accentClassName="text-ember-warm"
-        />
-
-        <DashboardCard
-          title={t("navigation.specialists")}
-          description={t("dashboard.specialists_description")}
-          Icon={HeartPulse}
-          href={`/${locale}/specialists`}
-          accentClassName="text-dusk-violet"
-        />
-
-        <DashboardCard
-          title={t("navigation.notes")}
-          description={t("dashboard.notes_description")}
-          Icon={NotebookPen}
-          href={`/${locale}/notes`}
-          accentClassName="text-forest-deep"
-        />
       </div>
     </main>
   );
