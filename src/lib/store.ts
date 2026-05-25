@@ -15,6 +15,7 @@ export interface Note {
   id: string;
   text: string;
   createdAt: string; // ISO 8601
+  updatedAt?: string; // ISO 8601 — set when the note is edited
 }
 
 interface HopeState {
@@ -37,6 +38,7 @@ interface HopeState {
   completeOnboarding: (name: string, language: Locale) => void;
   acknowledgeHelpNowDisclaimer: () => void;
   addNote: (text: string) => void;
+  updateNote: (id: string, text: string) => void;
   deleteNote: (id: string) => void;
   /** Wipe everything (used by Settings → Reset, useful for testing too). */
   reset: () => void;
@@ -82,6 +84,18 @@ export const useHopeStore = create<HopeState>()(
             { id: crypto.randomUUID(), text: clean, createdAt: new Date().toISOString() },
             ...state.notes,
           ],
+        }));
+      },
+
+      updateNote: (id, text) => {
+        const clean = text.trim();
+        if (!clean) return;
+        set((state) => ({
+          notes: state.notes.map((n) =>
+            n.id === id
+              ? { ...n, text: clean, updatedAt: new Date().toISOString() }
+              : n,
+          ),
         }));
       },
 
