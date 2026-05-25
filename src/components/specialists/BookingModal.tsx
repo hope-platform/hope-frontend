@@ -46,7 +46,9 @@ export function BookingModal({ specialist, onClose }: BookingModalProps) {
 
   const send = () => {
     const subject = t("subject", { name: specialist.name });
-    const fullBody = `${message}\n\n— ${yourName}\nReply to: ${yourEmail}`;
+    // The message template already signs off with the parent's name, so we
+    // only append a reply-to line here (avoids the name appearing twice).
+    const fullBody = `${message}\n\nReply to: ${yourEmail}`;
     const url = buildMailtoURL({ to: specialist.email, subject, body: fullBody });
     // Trigger the user's mail client
     window.location.href = url;

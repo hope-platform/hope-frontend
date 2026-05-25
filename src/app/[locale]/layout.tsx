@@ -3,6 +3,7 @@ import { Inter, Instrument_Serif } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
 import "../globals.css";
 
 // Inter — Hope's UI / body typeface.
@@ -66,6 +67,8 @@ export default async function RootLayout({
     >
       <body>
         <NextIntlClientProvider messages={messages}>
+          {/* Redirects un-onboarded users to /onboarding on any screen */}
+          <OnboardingGate />
           <div className="min-h-screen pb-nav-height">{children}</div>
           <BottomNav />
         </NextIntlClientProvider>

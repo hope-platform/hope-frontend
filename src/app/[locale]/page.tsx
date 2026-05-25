@@ -8,7 +8,6 @@ import { Greeting } from "@/components/dashboard/Greeting";
 import { HelpNowHero } from "@/components/dashboard/HelpNowHero";
 import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
 import { OfflineStrip } from "@/components/dashboard/OfflineStrip";
-import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
 import { useHopeStore } from "@/lib/store";
 
 /**
@@ -36,8 +35,6 @@ export default function Home() {
 
   return (
     <main className="bg-cream">
-      <OnboardingGate />
-
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-7 px-5 py-7 md:px-8 md:py-10">
 
         {/* ── Top bar: brand + language ────────────────────── */}
