@@ -21,12 +21,14 @@ const DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 /**
  * A single saved note.
  *
- * Two modes:
- *   - View   — shows the timestamp, an "edited" marker if it was changed,
- *              and pencil / trash actions.
- *   - Edit   — inline textarea with Save / Cancel. Cmd/Ctrl+Enter saves,
- *              Escape cancels. Save is disabled while the text is empty or
- *              unchanged, so an accidental tap can't blank a note.
+ * Three modes:
+ *   - View    — shows the timestamp, an "edited" marker if it was changed,
+ *               and pencil / trash actions.
+ *   - Edit    — inline textarea with Save / Cancel. Cmd/Ctrl+Enter saves,
+ *               Escape cancels. Save is disabled while the text is empty or
+ *               unchanged, so an accidental tap can't blank a note.
+ *   - Confirm — tapping the trash asks "Delete this note?" first (Cancel /
+ *               Delete), so a single mis-tap can't lose a note. Escape cancels.
  */
 export function NoteCard({ note }: NoteCardProps) {
   const t = useTranslations("notes");
@@ -36,6 +38,7 @@ export function NoteCard({ note }: NoteCardProps) {
 
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(note.text);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   const dateLabel = new Date(note.createdAt).toLocaleString(locale, DATE_OPTIONS);
 
@@ -72,7 +75,7 @@ export function NoteCard({ note }: NoteCardProps) {
             )}
           </time>
 
-          {!editing && (
+          {!editing && !confirmingDelete && (
             <div className="flex flex-shrink-0 items-center gap-1">
               <button
                 type="button"
@@ -84,7 +87,7 @@ export function NoteCard({ note }: NoteCardProps) {
               </button>
               <button
                 type="button"
-                onClick={() => deleteNote(note.id)}
+                onClick={() => setConfirmingDelete(true)}
                 aria-label={t("delete")}
                 className="grid h-7 w-7 place-items-center rounded-full text-ink-35 transition-colors duration-base hover:bg-ink-05 hover:text-coral-d"
               >
@@ -144,9 +147,45 @@ export function NoteCard({ note }: NoteCardProps) {
             </div>
           </div>
         ) : (
-          <p className="whitespace-pre-wrap text-base leading-loose text-ink-90">
-            {note.text}
-          </p>
+          <>
+            <p className="whitespace-pre-wrap text-base leading-loose text-ink-90">
+              {note.text}
+            </p>
+
+            {confirmingDelete && (
+              <div
+                role="alertdialog"
+                aria-label={t("delete_confirm")}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    e.preventDefault();
+                    setConfirmingDelete(false);
+                  }
+                }}
+                className="mt-1 flex flex-wrap items-center justify-between gap-2 rounded-btn bg-paper-2 px-3 py-2.5"
+              >
+                <span className="text-sm text-ink-70">{t("delete_confirm")}</span>
+                <div className="flex flex-shrink-0 items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setConfirmingDelete(false)}
+                    autoFocus
+                    className="inline-flex h-8 items-center rounded-pill px-3 text-sm font-medium text-ink-55 transition-colors duration-base hover:bg-ink-05 hover:text-ink"
+                  >
+                    {t("cancel")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => deleteNote(note.id)}
+                    className="inline-flex h-8 items-center gap-1.5 rounded-pill bg-coral px-3 text-sm font-medium text-white shadow-hope-sm transition-colors duration-base hover:bg-coral-d"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" strokeWidth={2} aria-hidden="true" />
+                    {t("delete_confirm_yes")}
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </article>

@@ -138,6 +138,8 @@
     "delete": "Delete note",
     "edit": "Edit note",
     "edited": "edited",
+    "delete_confirm": "Delete this note?",
+    "delete_confirm_yes": "Delete",
     "empty_title": "Nothing here yet",
     "empty_description": "When you save your first note it will live here. Notes never leave this device.",
     "local_only_note": "Your notes are stored only on this device."
