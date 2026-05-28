@@ -14,7 +14,7 @@ export function OfflineStrip() {
   return (
     <section
       aria-label={t("offline_chip")}
-      className="flex flex-wrap items-center gap-4 rounded-card border border-ink-05 bg-paper-2 px-5 py-4"
+      className="flex flex-wrap items-center gap-4 rounded-card border border-ink-05 bg-paper-2 p-6"
     >
       <span className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-btn bg-mist">
         <Wifi className="h-4 w-4 text-teal" strokeWidth={1.8} aria-hidden="true" />

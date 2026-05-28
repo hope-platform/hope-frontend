@@ -33,7 +33,7 @@ export function HelpNowHero({ href }: HelpNowHeroProps) {
         transition-all duration-base
         hover:-translate-y-0.5 hover:brightness-110
         focus:outline-none focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-cream
-        md:gap-6 md:px-8 md:py-7
+        md:gap-6 md:px-9 md:py-8
       "
     >
       {/* Pulsing coral icon container */}
@@ -57,9 +57,9 @@ export function HelpNowHero({ href }: HelpNowHeroProps) {
         </span>
       </span>
 
-      {/* Right arrow (hidden on mobile to save space) */}
+      {/* Right arrow — always visible per the mockup */}
       <ArrowRight
-        className="hidden h-6 w-6 flex-shrink-0 text-coral transition-transform duration-base group-hover:translate-x-1 sm:block rtl:rotate-180"
+        className="h-6 w-6 flex-shrink-0 text-coral transition-transform duration-base group-hover:translate-x-1 rtl:rotate-180"
         aria-hidden="true"
       />
     </Link>

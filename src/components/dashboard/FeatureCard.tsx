@@ -55,12 +55,12 @@ export function FeatureCard({
     <>
       {/* Icon pill — translucent white so each scheme stays calm */}
       <span className="grid h-11 w-11 place-items-center rounded-btn bg-white/55">
-        <Icon className={`h-5 w-5 ${iconColor}`} strokeWidth={1.7} aria-hidden="true" />
+        <Icon className={`h-[22px] w-[22px] ${iconColor}`} strokeWidth={1.7} aria-hidden="true" />
       </span>
 
       <span className="block">
-        <span className="block text-md font-medium tracking-tight">{title}</span>
-        <span className="mt-1 block text-sm text-ink-55">{description}</span>
+        <span className="block text-lg font-medium tracking-tight">{title}</span>
+        <span className="mt-1 block text-[13px] text-ink-55">{description}</span>
       </span>
     </>
   );
