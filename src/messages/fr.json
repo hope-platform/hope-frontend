@@ -138,6 +138,8 @@
     "delete": "Supprimer la note",
     "edit": "Modifier la note",
     "edited": "modifié",
+    "delete_confirm": "Supprimer cette note ?",
+    "delete_confirm_yes": "Supprimer",
     "empty_title": "Rien ici pour le moment",
     "empty_description": "Quand vous enregistrerez votre première note elle apparaîtra ici. Les notes ne quittent jamais cet appareil.",
     "local_only_note": "Vos notes sont stockées uniquement sur cet appareil."
