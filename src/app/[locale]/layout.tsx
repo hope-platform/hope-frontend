@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
+import { WarmUpPing } from "@/components/system/WarmUpPing";
 import "../globals.css";
 
 // Inter — Hope's UI / body typeface.
@@ -69,6 +70,9 @@ export default async function RootLayout({
         <NextIntlClientProvider messages={messages}>
           {/* Redirects un-onboarded users to /onboarding on any screen */}
           <OnboardingGate />
+          {/* Wakes the Render backend on app boot so the first data-driven
+              page doesn't wait through a 30s cold start. */}
+          <WarmUpPing />
           <div className="min-h-screen pb-nav-height">{children}</div>
           <BottomNav />
         </NextIntlClientProvider>

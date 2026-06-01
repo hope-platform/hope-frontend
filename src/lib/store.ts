@@ -25,6 +25,12 @@ interface HopeState {
   /** ISO timestamp the user finished onboarding. null = not yet onboarded. */
   onboardedAt: string | null;
 
+  /** ── Backend user identity ──────────────────────────────── */
+  /** Hope backend user UUID — sent as the X-Hope-User-Id header on
+   * protected requests. Populated by POST /users during onboarding
+   * (wired in a later PR). null = no backend user yet. */
+  userId: string | null;
+
   /** ── Help Now disclaimer ── ISO timestamp the user acknowledged.
    * null = needs to see the disclaimer before the picker. */
   helpNowDisclaimerAcknowledgedAt: string | null;
@@ -35,6 +41,7 @@ interface HopeState {
   /** ── Actions ────────────────────────────────────────────── */
   setName: (name: string) => void;
   setLanguage: (language: Locale) => void;
+  setUserId: (id: string | null) => void;
   completeOnboarding: (name: string, language: Locale) => void;
   acknowledgeHelpNowDisclaimer: () => void;
   addNote: (text: string) => void;
@@ -60,11 +67,13 @@ export const useHopeStore = create<HopeState>()(
       name: null,
       language: "en",
       onboardedAt: null,
+      userId: null,
       helpNowDisclaimerAcknowledgedAt: null,
       notes: [],
 
       setName: (name) => set({ name: name.trim() || null }),
       setLanguage: (language) => set({ language }),
+      setUserId: (id) => set({ userId: id }),
 
       completeOnboarding: (name, language) =>
         set({
@@ -107,6 +116,7 @@ export const useHopeStore = create<HopeState>()(
           name: null,
           language: "en",
           onboardedAt: null,
+          userId: null,
           helpNowDisclaimerAcknowledgedAt: null,
           notes: [],
         }),
