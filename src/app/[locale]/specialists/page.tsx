@@ -1,40 +1,69 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Filter, Users } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { AlertCircle, Filter, RefreshCw, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
 import { SpecialistCard } from "@/components/specialists/SpecialistCard";
 import { BookingModal } from "@/components/specialists/BookingModal";
 import { EmptyState } from "@/components/shared/EmptyState";
+import { getSpecialists } from "@/lib/api";
+import { SPECIALIST_CITIES } from "@/lib/locations";
 import {
-  SPECIALISTS,
-  allCities,
+  adaptApiSpecialist,
   filterSpecialists,
   type Language,
   type Specialist,
 } from "@/lib/specialists-content";
 
 /**
- * Specialist Directory — list of verified clinicians with language +
- * city filters and an email-or-WhatsApp booking flow.
+ * Specialist Directory — list of verified clinicians fetched from the
+ * Hope backend (GET /specialists), with language + city filters and an
+ * email-or-WhatsApp booking flow.
  *
- * Filters are client-side (the list is small in MVP). Selecting "Book"
- * on a card opens BookingModal, which pre-fills a polite message and
- * hands off to the user's mail client via mailto:.
+ * Filter dropdown values come from a hardcoded city list
+ * (src/lib/locations.ts) because the backend doesn't expose a `facets`
+ * block in MVP — Muzhgan is adding that in Phase 2.
+ *
+ * Filtering itself is client-side. With ~6 specialists in MVP, fetching
+ * everything once is faster than a roundtrip per filter change.
  */
 export default function SpecialistsPage() {
   const t = useTranslations("specialists");
-  const cities = useMemo(() => allCities(), []);
 
+  const [specialists, setSpecialists] = useState<Specialist[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [lang, setLang] = useState<Language | "">("");
   const [city, setCity] = useState<string>("");
   const [booking, setBooking] = useState<Specialist | null>(null);
 
+  const load = useCallback(async () => {
+    setError(null);
+    setSpecialists(null);
+    try {
+      const { specialists: list } = await getSpecialists();
+      setSpecialists(list.map(adaptApiSpecialist));
+    } catch (e) {
+      // Surface a friendly message; details go to the console for dev.
+      console.error("Failed to load specialists:", e);
+      setError(e instanceof Error ? e.message : String(e));
+    }
+  }, []);
+
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  const loading = specialists === null && !error;
+  const totalCount = specialists?.length ?? 0;
+
   const filtered = useMemo(
-    () => filterSpecialists({ language: lang, city }),
-    [lang, city],
+    () =>
+      specialists
+        ? filterSpecialists(specialists, { language: lang, city })
+        : [],
+    [specialists, lang, city],
   );
 
   return (
@@ -55,7 +84,7 @@ export default function SpecialistsPage() {
             {t("title")}
           </h1>
           <p className="mt-3 max-w-xl text-base leading-loose text-ink-70">
-            {t("subtitle", { count: SPECIALISTS.length })}
+            {t("subtitle", { count: totalCount })}
           </p>
         </section>
 
@@ -71,7 +100,8 @@ export default function SpecialistsPage() {
             <select
               value={lang}
               onChange={(e) => setLang(e.target.value as Language | "")}
-              className="rounded-btn border border-ink-08 bg-cream px-3 py-1.5 text-xs text-ink focus:border-teal focus:outline-none"
+              disabled={loading || !!error}
+              className="rounded-btn border border-ink-08 bg-cream px-3 py-1.5 text-xs text-ink focus:border-teal focus:outline-none disabled:opacity-50"
             >
               <option value="">{t("any")}</option>
               <option value="en">EN</option>
@@ -85,22 +115,56 @@ export default function SpecialistsPage() {
             <select
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="rounded-btn border border-ink-08 bg-cream px-3 py-1.5 text-xs text-ink focus:border-teal focus:outline-none"
+              disabled={loading || !!error}
+              className="rounded-btn border border-ink-08 bg-cream px-3 py-1.5 text-xs text-ink focus:border-teal focus:outline-none disabled:opacity-50"
             >
               <option value="">{t("any")}</option>
-              {cities.map((c) => (
+              {SPECIALIST_CITIES.map((c) => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
           </label>
 
           <span className="ms-auto text-xs text-ink-55">
-            {t("count_of", { shown: filtered.length, total: SPECIALISTS.length })}
+            {t("count_of", { shown: filtered.length, total: totalCount })}
           </span>
         </section>
 
-        {/* List or empty state */}
-        {filtered.length === 0 ? (
+        {/* Loading → calm and brand-styled; first load can take ~30s
+            on Render's free tier the very first time. */}
+        {loading ? (
+          <div className="hope-fade-in flex flex-col items-center gap-3 rounded-card border border-ink-05 bg-paper px-6 py-12 text-center">
+            <span className="grid h-12 w-12 animate-pulse place-items-center rounded-full bg-mist">
+              <Users className="h-5 w-5 text-teal" strokeWidth={1.8} aria-hidden="true" />
+            </span>
+            <h2 className="font-serif text-xl italic text-teal-d">{t("loading_title")}</h2>
+            <p className="max-w-sm text-sm leading-loose text-ink-55">
+              {t("loading_description")}
+            </p>
+          </div>
+        ) : error ? (
+          <div className="hope-fade-in flex flex-col items-center gap-3 rounded-card border border-ink-05 bg-paper-2 px-6 py-12 text-center">
+            <span className="grid h-12 w-12 place-items-center rounded-full bg-coral-l">
+              <AlertCircle className="h-5 w-5 text-coral-d" strokeWidth={1.8} aria-hidden="true" />
+            </span>
+            <h2 className="font-serif text-xl italic text-coral-d">{t("error_title")}</h2>
+            <p className="max-w-sm text-sm leading-loose text-ink-55">
+              {t("error_description")}
+            </p>
+            <button
+              type="button"
+              onClick={load}
+              className="
+                mt-2 inline-flex h-10 items-center gap-2 rounded-pill bg-teal px-5
+                text-sm font-medium text-white shadow-hope-sm
+                transition-colors duration-base hover:bg-teal-d
+              "
+            >
+              <RefreshCw className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+              {t("retry")}
+            </button>
+          </div>
+        ) : filtered.length === 0 ? (
           <EmptyState
             Icon={Users}
             title={t("empty_title")}

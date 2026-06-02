@@ -1,26 +1,35 @@
 /**
- * Hope — Specialist Directory content.
+ * Hope — Specialist Directory shared types & helpers.
  *
- * Six verified specialists for MVP launch. Each profile is curated and
- * the contact details are real-shaped (email + WhatsApp in E.164 form).
+ * The actual specialist data now comes from the backend (GET /specialists,
+ * via src/lib/api.ts). What lives here:
  *
- * In MVP these are stored as static data — backend wiring comes later.
- * Blurbs are English-only for MVP (DATA_MODEL.md). Localised role +
- * city + price labels are added at render time via i18n.
+ *   - The UI-shape `Specialist` type that components consume.
+ *   - `adaptApiSpecialist` — maps a snake_case backend record into the
+ *     UI shape, filling the three fields the backend doesn't expose
+ *     (initials, avatarColor, country) by computing them deterministically
+ *     from the record itself.
+ *   - `filterSpecialists` — client-side filter by language and city.
+ *   - `buildWhatsAppURL` / `buildMailtoURL` — used by SpecialistCard and
+ *     BookingModal. BookingModal's mailto path will move to POST /bookings
+ *     in the Day 4 PR.
  */
+
+import type { Specialist as ApiSpecialist } from "@/types/api";
 
 export type Language = "en" | "fr" | "dr";
 
 export interface Specialist {
   id: string;
   name: string;
-  /** Two-letter initials for the avatar. */
+  /** Two-letter initials for the avatar, derived from `name`. */
   initials: string;
-  /** Avatar background colour — chosen from the Hope palette. */
+  /** Avatar background colour — picked deterministically from `id`
+   * so each specialist always renders the same colour across reloads. */
   avatarColor: "teal" | "slate" | "coral-d" | "sand-d";
   /** Role/specialty (English; localise via i18n if needed in V2). */
   role: string;
-  /** City label including country code. */
+  /** City label including country code, e.g. "Paris, FR". */
   city: string;
   country: "FR" | "UK" | "AF" | "ES";
   languages: Language[];
@@ -28,134 +37,83 @@ export interface Specialist {
   /** Short narrative blurb (~140 chars). */
   blurb: string;
   email: string;
-  /** E.164 format (e.g. "+33612345678"). Frontend strips digits to build wa.me link. */
+  /** E.164 format. We strip digits to build wa.me links. */
   whatsapp: string;
   verified: boolean;
   verifiedAt: string;
 }
 
-export const SPECIALISTS: Specialist[] = [
-  {
-    id: "elena-rivera",
-    name: "Dr. Elena Rivera",
-    initials: "ER",
-    avatarColor: "teal",
-    role: "Developmental pediatrician",
-    city: "Paris, FR",
-    country: "FR",
-    languages: ["en", "fr"],
-    priceRange: "€80–120",
-    blurb: "15 years working with families navigating new diagnoses. Calm, plain-language approach.",
-    email: "rivera@clinic.fr",
-    whatsapp: "+33612345678",
-    verified: true,
-    verifiedAt: "2026-04-01T00:00:00Z",
-  },
-  {
-    id: "maria-chen",
-    name: "Maria Chen",
-    initials: "MC",
-    avatarColor: "slate",
-    role: "Occupational therapist",
-    city: "Lyon, FR",
-    country: "FR",
-    languages: ["en", "fr"],
-    priceRange: "€60–90",
-    blurb: "Sensory integration and daily-living skills. Home visits available across Lyon.",
-    email: "maria@brightsteps.fr",
-    whatsapp: "+33623456789",
-    verified: true,
-    verifiedAt: "2026-04-04T00:00:00Z",
-  },
-  {
-    id: "jonas-park",
-    name: "Jonas Park",
-    initials: "JP",
-    avatarColor: "coral-d",
-    role: "Speech-language pathologist",
-    city: "Marseille, FR",
-    country: "FR",
-    languages: ["en", "fr"],
-    priceRange: "€55–85",
-    blurb: "AAC, speech delays, and gestalt language processing. Online sessions available.",
-    email: "jonas@speakeasy.fr",
-    whatsapp: "+33634567890",
-    verified: true,
-    verifiedAt: "2026-04-08T00:00:00Z",
-  },
-  {
-    id: "ahmad-karimi",
-    name: "Dr. Ahmad Karimi",
-    initials: "AK",
-    avatarColor: "sand-d",
-    role: "Child psychiatrist",
-    city: "Kabul, AF",
-    country: "AF",
-    languages: ["dr", "en"],
-    priceRange: "On request",
-    blurb: "Mood and anxiety in autistic children. Tele-consultations in Dari and English.",
-    email: "a.karimi@hopecare.af",
-    whatsapp: "+93791234567",
-    verified: true,
-    verifiedAt: "2026-04-12T00:00:00Z",
-  },
-  {
-    id: "lila-khan",
-    name: "Lila Khan",
-    initials: "LK",
-    avatarColor: "teal",
-    role: "Family therapist",
-    city: "London, UK",
-    country: "UK",
-    languages: ["en"],
-    priceRange: "£70–110",
-    blurb: "Sibling dynamics, parent burnout, and gentle family routines.",
-    email: "lila@khan.uk",
-    whatsapp: "+447700900123",
-    verified: true,
-    verifiedAt: "2026-04-15T00:00:00Z",
-  },
-  {
-    id: "sofia-martinez",
-    name: "Sofia Martinez",
-    initials: "SM",
-    avatarColor: "slate",
-    role: "Behavioural therapist",
-    city: "Madrid, ES",
-    country: "ES",
-    languages: ["en", "fr"],
-    priceRange: "€65–95",
-    blurb: "Naturalistic developmental approaches — never compliance-based. Spanish, English, French.",
-    email: "sofia@calmsteps.es",
-    whatsapp: "+34612345678",
-    verified: true,
-    verifiedAt: "2026-04-20T00:00:00Z",
-  },
-];
+/* ── Adapter (API → UI) ──────────────────────────────────── */
 
-/** All unique cities, for the filter dropdown. */
-export function allCities(): string[] {
-  return Array.from(new Set(SPECIALISTS.map((s) => s.city))).sort();
+const AVATAR_COLORS = ["teal", "slate", "coral-d", "sand-d"] as const;
+
+function hashId(id: string): number {
+  // Tiny deterministic string hash — enough to pick an avatar colour
+  // bucket. Same id → same bucket forever.
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
+  return Math.abs(h);
 }
 
-/** All unique languages spoken across the directory. */
-export function allLanguages(): Language[] {
-  const set = new Set<Language>();
-  SPECIALISTS.forEach((s) => s.languages.forEach((l) => set.add(l)));
-  return Array.from(set);
+function pickAvatarColor(id: string): Specialist["avatarColor"] {
+  return AVATAR_COLORS[hashId(id) % AVATAR_COLORS.length];
 }
 
-/** Filter the directory by language and/or city. Empty string = no filter. */
-export function filterSpecialists(opts: {
-  language?: Language | "";
-  city?: string;
-}): Specialist[] {
-  return SPECIALISTS.filter((s) => {
+function pickInitials(name: string): string {
+  // "Dr. Elena Rivera" → "ER" : strip honorific, take first letters of
+  // the first and last word. Falls back to first two characters for
+  // single-word names.
+  const stripped = name.replace(/^(Dr|Mr|Mrs|Ms|Mx)\.?\s+/i, "").trim();
+  const parts = stripped.split(/\s+/);
+  if (parts.length === 0 || !parts[0]) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function parseCountry(location: string): Specialist["country"] {
+  // "Paris, FR" → "FR". Falls back to "FR" if the suffix isn't one of
+  // our four supported country codes (defensive — backend may seed
+  // additional cities in the future).
+  const code = location.match(/,\s*([A-Z]{2})$/)?.[1];
+  if (code === "FR" || code === "UK" || code === "AF" || code === "ES") return code;
+  return "FR";
+}
+
+/** Map a backend Specialist (snake_case) to the UI Specialist shape. */
+export function adaptApiSpecialist(api: ApiSpecialist): Specialist {
+  return {
+    id: api.id,
+    name: api.name,
+    initials: pickInitials(api.name),
+    avatarColor: pickAvatarColor(api.id),
+    role: api.specialty,
+    city: api.location,
+    country: parseCountry(api.location),
+    languages: api.languages,
+    priceRange: api.price_range,
+    blurb: api.bio,
+    email: api.contact_email,
+    whatsapp: api.contact_whatsapp,
+    verified: api.verified,
+    verifiedAt: api.created_at,
+  };
+}
+
+/* ── Filter ─────────────────────────────────────────────── */
+
+/** Filter the list by language and/or city. Empty string = no filter. */
+export function filterSpecialists(
+  list: Specialist[],
+  opts: { language?: Language | ""; city?: string },
+): Specialist[] {
+  return list.filter((s) => {
     if (opts.language && !s.languages.includes(opts.language as Language)) return false;
     if (opts.city && s.city !== opts.city) return false;
     return true;
   });
 }
+
+/* ── URL builders ───────────────────────────────────────── */
 
 /** Build a wa.me URL from a stored WhatsApp number. */
 export function buildWhatsAppURL(whatsapp: string, message?: string): string {

@@ -109,7 +109,12 @@
     "book_cta": "Réserver une consultation",
     "wa_message": "Bonjour {name}, je vous ai trouvé via Hope. J'aimerais vous poser une question concernant une consultation.",
     "empty_title": "Aucun spécialiste ne correspond",
-    "empty_description": "Essayez une autre langue ou ville. Nous ajoutons de nouveaux spécialistes chaque semaine."
+    "empty_description": "Essayez une autre langue ou ville. Nous ajoutons de nouveaux spécialistes chaque semaine.",
+    "loading_title": "Recherche de spécialistes",
+    "loading_description": "Le premier chargement peut prendre jusqu'à 30 secondes pendant que nous réveillons le serveur.",
+    "error_title": "Impossible de joindre les spécialistes",
+    "error_description": "Vérifiez votre connexion et réessayez dans un moment.",
+    "retry": "Réessayer"
   },
   "booking": {
     "eyebrow": "Réserver une consultation",
