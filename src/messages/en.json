@@ -109,7 +109,12 @@
     "book_cta": "Book a consultation",
     "wa_message": "Hello {name}, I found you through Hope. I'd like to ask about a consultation.",
     "empty_title": "No specialists match",
-    "empty_description": "Try a different language or city. We're adding new specialists every week."
+    "empty_description": "Try a different language or city. We're adding new specialists every week.",
+    "loading_title": "Looking up specialists",
+    "loading_description": "The first load can take up to 30 seconds while we wake the server.",
+    "error_title": "Couldn't reach the specialists",
+    "error_description": "Check your connection and try again in a moment.",
+    "retry": "Try again"
   },
   "booking": {
     "eyebrow": "Book a consultation",
