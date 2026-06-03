@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
+import { UserBootstrap } from "@/components/system/UserBootstrap";
 import { WarmUpPing } from "@/components/system/WarmUpPing";
 import "../globals.css";
 
@@ -73,6 +74,9 @@ export default async function RootLayout({
           {/* Wakes the Render backend on app boot so the first data-driven
               page doesn't wait through a 30s cold start. */}
           <WarmUpPing />
+          {/* Retries the backend user POST if onboarding finished locally
+              but the backend id is still missing (e.g. backend was cold). */}
+          <UserBootstrap />
           <div className="min-h-screen pb-nav-height">{children}</div>
           <BottomNav />
         </NextIntlClientProvider>

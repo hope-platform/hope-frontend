@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, Check } from "lucide-react";
 import { useHasHydrated, useHopeStore, type Locale } from "@/lib/store";
+import { bootstrapBackendUser } from "@/lib/user-bootstrap";
 
 type Step = "welcome" | "language" | "name";
 
@@ -31,6 +32,7 @@ export default function OnboardingPage() {
   const hydrated = useHasHydrated();
   const onboardedAt = useHopeStore((s) => s.onboardedAt);
   const completeOnboarding = useHopeStore((s) => s.completeOnboarding);
+  const setUserId = useHopeStore((s) => s.setUserId);
 
   const [step, setStep] = useState<Step>("welcome");
   const [pickedLanguage, setPickedLanguage] = useState<Locale>(locale as Locale);
@@ -45,6 +47,17 @@ export default function OnboardingPage() {
 
   const finish = () => {
     completeOnboarding(name, pickedLanguage);
+    // Fire-and-forget the backend user POST so onboarding never waits on
+    // the network. If it fails (cold start, no signal, CORS), the
+    // UserBootstrap component in the layout retries it on the next boot.
+    void bootstrapBackendUser({
+      name,
+      language_preference: pickedLanguage,
+    })
+      .then(setUserId)
+      .catch((e) => {
+        console.warn("Onboarding user bootstrap failed:", e);
+      });
     router.replace(`/${pickedLanguage}`);
   };
 
