@@ -127,7 +127,18 @@
     "subject": "Booking request via Hope — {name}",
     "message_template": "Hello {firstName},\n\nI found you through Hope. I'd like to book a consultation about my child. A few open times work for me — please let me know what suits you.\n\nThank you,\n{signature}",
     "sent_title": "Email sent",
-    "sent_body": "We'll confirm your booking within 48 hours."
+    "sent_body": "We'll confirm your booking within 48 hours.",
+    "contact_method_label": "How should the specialist reach you?",
+    "contact_method_email": "Email",
+    "contact_method_whatsapp": "WhatsApp",
+    "sending": "Sending…",
+    "submit": "Send booking",
+    "error_title": "Booking didn't go through",
+    "error_description": "Check your details and try again in a moment.",
+    "error_no_user_title": "Account not ready yet",
+    "error_no_user_body": "Hope is still setting up your account. Try again in a moment.",
+    "email_failed_title": "Booking saved",
+    "email_failed_body": "We've saved your request. Hope will retry sending the email shortly."
   },
   "notes": {
     "eyebrow": "Notes",

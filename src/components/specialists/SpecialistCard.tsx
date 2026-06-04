@@ -1,8 +1,8 @@
 "use client";
 
-import { Check, MapPin, Mail, MessageCircle } from "lucide-react";
+import { Check, MapPin, Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { buildWhatsAppURL, type Specialist } from "@/lib/specialists-content";
+import { type Specialist } from "@/lib/specialists-content";
 
 const AVATAR_BG: Record<Specialist["avatarColor"], string> = {
   teal:       "bg-teal",
@@ -18,10 +18,15 @@ interface SpecialistCardProps {
 
 /**
  * One specialist profile card. Avatar with initials in a brand colour,
- * name + role + city + languages, blurb, two CTAs:
+ * name + role + city + languages, blurb, single full-width CTA:
  *
- *   - "Book a consultation" — opens the BookingModal (which sends email)
- *   - "WhatsApp"            — opens wa.me/<digits>?text=<prefilled>
+ *   - "Book a consultation" — opens the BookingModal, where the parent
+ *     picks email or WhatsApp as their preferred contact method and the
+ *     backend (POST /bookings) records it and sends the email.
+ *
+ * The standalone WhatsApp link was removed when bookings moved to the
+ * backend — the modal's contact_method radio replaces it cleanly and
+ * keeps every booking in the backend record.
  *
  * Verified badge in the top-right when the specialist is verified.
  */
@@ -29,9 +34,6 @@ export function SpecialistCard({ specialist, onBook }: SpecialistCardProps) {
   const t = useTranslations("specialists");
   const tLang = useTranslations("languageCode");
   const avatarBg = AVATAR_BG[specialist.avatarColor];
-
-  // Pre-filled WhatsApp message
-  const waMessage = t("wa_message", { name: specialist.name.split(" ").slice(-1)[0] });
 
   return (
     <article className="flex flex-col gap-4 rounded-card border border-ink-05 bg-paper p-5">
@@ -78,13 +80,14 @@ export function SpecialistCard({ specialist, onBook }: SpecialistCardProps) {
         ))}
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-2 border-t border-ink-05 pt-3">
+      {/* Action — single full-width Book button; contact method is
+          picked inside the modal. */}
+      <div className="border-t border-ink-05 pt-3">
         <button
           type="button"
           onClick={() => onBook(specialist)}
           className="
-            inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-pill bg-teal px-4
+            inline-flex h-10 w-full items-center justify-center gap-2 rounded-pill bg-teal px-4
             text-sm font-medium text-white shadow-hope-sm
             transition-colors duration-base hover:bg-teal-d
           "
@@ -92,19 +95,6 @@ export function SpecialistCard({ specialist, onBook }: SpecialistCardProps) {
           <Mail className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
           {t("book_cta")}
         </button>
-        <a
-          href={buildWhatsAppURL(specialist.whatsapp, waMessage)}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="
-            inline-flex h-10 items-center justify-center gap-2 rounded-pill border border-ink-15 bg-paper px-4
-            text-sm font-medium text-ink
-            transition-colors duration-base hover:border-ink-35 hover:bg-ink-05
-          "
-        >
-          <MessageCircle className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
-          WhatsApp
-        </a>
       </div>
     </article>
   );
