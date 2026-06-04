@@ -127,7 +127,18 @@
     "subject": "Demande de réservation via Hope — {name}",
     "message_template": "Bonjour {firstName},\n\nJe vous ai trouvé via Hope. J'aimerais réserver une consultation pour mon enfant. Plusieurs créneaux me conviennent — merci de m'indiquer ce qui vous arrange.\n\nMerci,\n{signature}",
     "sent_title": "E-mail envoyé",
-    "sent_body": "Nous confirmerons votre réservation sous 48 heures."
+    "sent_body": "Nous confirmerons votre réservation sous 48 heures.",
+    "contact_method_label": "Comment le spécialiste doit-il vous contacter ?",
+    "contact_method_email": "E-mail",
+    "contact_method_whatsapp": "WhatsApp",
+    "sending": "Envoi…",
+    "submit": "Envoyer la demande",
+    "error_title": "La réservation n'a pas abouti",
+    "error_description": "Vérifiez vos informations et réessayez dans un moment.",
+    "error_no_user_title": "Compte pas encore prêt",
+    "error_no_user_body": "Hope finalise votre compte. Réessayez dans un instant.",
+    "email_failed_title": "Réservation enregistrée",
+    "email_failed_body": "Nous avons enregistré votre demande. Hope renverra l'e-mail sous peu."
   },
   "notes": {
     "eyebrow": "Notes",
