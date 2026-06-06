@@ -168,6 +168,25 @@
     "fr": "FR",
     "dr": "دری"
   },
+  "settings": {
+    "eyebrow": "Settings",
+    "title": "Your account",
+    "subtitle": "Edit your details or start over.",
+    "name_label": "Your name",
+    "save": "Save",
+    "saved": "Saved",
+    "language_label": "Language",
+    "account_label": "Hope account",
+    "account_synced": "Connected — your backend record is set up.",
+    "account_pending": "Not connected yet — we'll connect when the server is reachable.",
+    "reset_label": "Start over",
+    "reset_description": "Clear everything on this device and go through onboarding again.",
+    "reset_button": "Clear my data",
+    "reset_confirm": "Clear all data on this device?",
+    "reset_confirm_yes": "Yes, clear it",
+    "cancel": "Cancel",
+    "aria_link": "Settings"
+  },
   "common": {
     "default_name": "friend",
     "brand_name": "Hope",
