@@ -168,6 +168,25 @@
     "fr": "FR",
     "dr": "دری"
   },
+  "settings": {
+    "eyebrow": "تنظیمات",
+    "title": "حساب شما",
+    "subtitle": "اطلاعات خود را ویرایش کنید یا از نو شروع کنید.",
+    "name_label": "نام شما",
+    "save": "ذخیره",
+    "saved": "ذخیره شد",
+    "language_label": "زبان",
+    "account_label": "حساب هوپ",
+    "account_synced": "متصل — حساب شما در سرور آماده است.",
+    "account_pending": "هنوز متصل نشده — به‌محض دسترسی به سرور همگام می‌شویم.",
+    "reset_label": "از نو شروع کنید",
+    "reset_description": "همه چیز را روی این دستگاه پاک کنید و دوباره از مرحله ورود شروع کنید.",
+    "reset_button": "پاک کردن اطلاعات من",
+    "reset_confirm": "همه اطلاعات این دستگاه پاک شود؟",
+    "reset_confirm_yes": "بله، پاک کن",
+    "cancel": "لغو",
+    "aria_link": "تنظیمات"
+  },
   "common": {
     "default_name": "دوست",
     "brand_name": "هوپ",

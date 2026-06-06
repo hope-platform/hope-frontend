@@ -168,6 +168,25 @@
     "fr": "FR",
     "dr": "دری"
   },
+  "settings": {
+    "eyebrow": "Paramètres",
+    "title": "Votre compte",
+    "subtitle": "Modifiez vos informations ou recommencez.",
+    "name_label": "Votre prénom",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "language_label": "Langue",
+    "account_label": "Compte Hope",
+    "account_synced": "Connecté — votre compte est configuré.",
+    "account_pending": "Pas encore connecté — nous synchroniserons dès que possible.",
+    "reset_label": "Recommencer",
+    "reset_description": "Tout effacer sur cet appareil et refaire l'onboarding.",
+    "reset_button": "Effacer mes données",
+    "reset_confirm": "Effacer toutes les données sur cet appareil ?",
+    "reset_confirm_yes": "Oui, tout effacer",
+    "cancel": "Annuler",
+    "aria_link": "Paramètres"
+  },
   "common": {
     "default_name": "ami",
     "brand_name": "Hope",
