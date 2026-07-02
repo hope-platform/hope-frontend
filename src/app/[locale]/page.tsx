@@ -1,14 +1,12 @@
 "use client";
 
-import Link from "next/link";
-import { BookOpen, NotebookPen, Settings, Users } from "lucide-react";
+import { BookOpen, NotebookPen, Users } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
 import { FeatureCard } from "@/components/dashboard/FeatureCard";
 import { Greeting } from "@/components/dashboard/Greeting";
 import { HelpNowHero } from "@/components/dashboard/HelpNowHero";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
 import { OfflineStrip } from "@/components/dashboard/OfflineStrip";
+import { TopBar } from "@/components/layout/TopBar";
 import { useHopeStore } from "@/lib/store";
 
 /**
@@ -32,7 +30,6 @@ export default function Home() {
   const locale = useLocale();
   const t = useTranslations("dashboard");
   const tNav = useTranslations("navigation");
-  const tSettings = useTranslations("settings");
   const name = useHopeStore((s) => s.name);
 
   return (
@@ -40,19 +37,7 @@ export default function Home() {
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-7 px-5 py-7 md:px-8 md:py-10">
 
         {/* ── Top bar: brand + settings + language ─────────── */}
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <div className="flex items-center gap-1.5">
-            <Link
-              href={`/${locale}/settings`}
-              aria-label={tSettings("aria_link")}
-              className="grid h-8 w-8 place-items-center rounded-full text-ink-55 transition-colors duration-base hover:bg-ink-05 hover:text-ink"
-            >
-              <Settings className="h-4 w-4" strokeWidth={1.8} aria-hidden="true" />
-            </Link>
-            <LanguageSwitcher />
-          </div>
-        </header>
+        <TopBar />
 
         {/* ── Body ────────────────────────────────────────── */}
         <div className="hope-fade-in flex flex-col gap-7">

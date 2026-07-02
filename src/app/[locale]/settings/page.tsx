@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Check, RotateCcw, Server, Trash2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { useHasHydrated, useHopeStore, type Locale } from "@/lib/store";
 
 const LANG_OPTIONS: { code: Locale; label: string }[] = [
@@ -76,10 +75,7 @@ export default function SettingsPage() {
     <main className="bg-cream">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         {/* Page header */}
         <section className="hope-fade-in">

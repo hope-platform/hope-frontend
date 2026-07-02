@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { StrategyView } from "@/components/help-now/StrategyView";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { getStrategy, TRIGGER_IDS, type TriggerId } from "@/lib/help-now-content";
 
 interface PageProps {
@@ -29,10 +28,7 @@ export default function HelpNowStrategyPage({ params }: PageProps) {
     <main className="bg-cream">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         {/* Back link to the picker */}
         <Link

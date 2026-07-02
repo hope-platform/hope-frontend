@@ -2,8 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Check, Sun, BookOpen, MessageCircle, Sparkles, Waves, Bed, Moon, Heart, type LucideIcon, AlertCircle } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { CATEGORIES, getGuide, type GuideCategory, type GuideIcon } from "@/lib/guides-content";
 
 const ICONS: Record<GuideIcon, LucideIcon> = {
@@ -46,10 +45,7 @@ export default function GuideReader({ params }: PageProps) {
     <main className="bg-cream">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         {/* Back link */}
         <Link

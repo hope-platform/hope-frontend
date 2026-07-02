@@ -3,8 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AlertCircle, Filter, RefreshCw, Users } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { SpecialistCard } from "@/components/specialists/SpecialistCard";
 import { BookingModal } from "@/components/specialists/BookingModal";
 import { EmptyState } from "@/components/shared/EmptyState";
@@ -70,10 +69,7 @@ export default function SpecialistsPage() {
     <main className="bg-cream">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         {/* Page header */}
         <section className="hope-fade-in">
