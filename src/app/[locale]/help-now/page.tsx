@@ -9,8 +9,7 @@ import {
 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { TriggerCard } from "@/components/help-now/TriggerCard";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { DisclaimerGate } from "@/components/help-now/DisclaimerGate";
 import type { TriggerId } from "@/lib/help-now-content";
 import type { LucideIcon } from "lucide-react";
@@ -58,10 +57,7 @@ export default function HelpNowPicker() {
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
         {/* Top bar — same shape as Dashboard for continuity */}
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         <DisclaimerGate>
           {/* Picker header */}

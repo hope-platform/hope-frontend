@@ -3,8 +3,7 @@
 import { useState } from "react";
 import { NotebookPen, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
-import { LanguageSwitcher } from "@/components/dashboard/LanguageSwitcher";
+import { TopBar } from "@/components/layout/TopBar";
 import { AddNoteModal } from "@/components/notes/AddNoteModal";
 import { NoteCard } from "@/components/notes/NoteCard";
 import { EmptyState } from "@/components/shared/EmptyState";
@@ -30,10 +29,7 @@ export default function NotesPage() {
     <main className="bg-cream">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-5 py-7 md:px-8 md:py-10">
 
-        <header className="flex items-center justify-between gap-4">
-          <DashboardHeader />
-          <LanguageSwitcher />
-        </header>
+        <TopBar />
 
         {/* Page header */}
         <section className="hope-fade-in flex flex-wrap items-end justify-between gap-3">
