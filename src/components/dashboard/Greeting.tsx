@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { formatDate } from "@/lib/dates";
+import type { Locale } from "@/lib/store";
 
 type GreetingKey =
   | "greeting_morning"
@@ -32,6 +34,7 @@ interface GreetingProps {
 export function Greeting({ name }: GreetingProps) {
   const t = useTranslations("dashboard");
   const tCommon = useTranslations("common");
+  const locale = useLocale() as Locale;
 
   const [greetingKey, setGreetingKey] =
     useState<GreetingKey>("greeting_morning");
@@ -49,13 +52,13 @@ export function Greeting({ name }: GreetingProps) {
     setIsEvening(hour >= 17);
 
     setDateLabel(
-      now.toLocaleDateString(undefined, {
+      formatDate(now, locale, {
         weekday: "long",
         day: "numeric",
         month: "long",
       }),
     );
-  }, []);
+  }, [locale]);
 
   const displayName = name || tCommon("default_name");
 
