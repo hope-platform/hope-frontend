@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
-import type { Note } from "@/lib/store";
+import { formatDateTime } from "@/lib/dates";
+import type { Locale, Note } from "@/lib/store";
 import { useHopeStore } from "@/lib/store";
 
 interface NoteCardProps {
@@ -40,7 +41,7 @@ export function NoteCard({ note }: NoteCardProps) {
   const [draft, setDraft] = useState(note.text);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
 
-  const dateLabel = new Date(note.createdAt).toLocaleString(locale, DATE_OPTIONS);
+  const dateLabel = formatDateTime(note.createdAt, locale as Locale, DATE_OPTIONS);
 
   const startEdit = () => {
     setDraft(note.text);
