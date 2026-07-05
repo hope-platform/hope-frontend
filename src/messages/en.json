@@ -190,6 +190,7 @@
   "common": {
     "default_name": "friend",
     "brand_name": "Hope",
-    "brand_subtitle": "A calm companion · MVP"
+    "brand_subtitle": "A calm companion · MVP",
+    "close": "Close"
   }
 }
