@@ -190,6 +190,7 @@
   "common": {
     "default_name": "دوست",
     "brand_name": "هوپ",
-    "brand_subtitle": "یک همراه آرام · MVP"
+    "brand_subtitle": "یک همراه آرام · MVP",
+    "close": "بستن"
   }
 }

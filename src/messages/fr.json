@@ -190,6 +190,7 @@
   "common": {
     "default_name": "ami",
     "brand_name": "Hope",
-    "brand_subtitle": "Un compagnon calme · MVP"
+    "brand_subtitle": "Un compagnon calme · MVP",
+    "close": "Fermer"
   }
 }

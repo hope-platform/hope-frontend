@@ -1,8 +1,9 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useTranslations } from "next-intl";
 
 interface ModalProps {
   /** Controls visibility. */
@@ -27,8 +28,14 @@ interface ModalProps {
  *   - Booking modal (Specialist Directory)
  *   - Help Now disclaimer gate
  *
- * Closes on backdrop click, Escape, and the X button. Locks body
- * scroll while open.
+ * Behaviour:
+ *   - Closes on backdrop click, Escape, and the X button.
+ *   - Locks body scroll while open.
+ *   - Moves keyboard focus into the modal on open and traps Tab
+ *     inside it (both directions), so users can't Tab into the
+ *     background.
+ *   - Restores focus to whatever was focused before open when it closes.
+ *   - Close button label is translated (common.close).
  */
 export function Modal({
   open,
@@ -39,6 +46,9 @@ export function Modal({
   maxWidthClassName = "max-w-lg",
   children,
 }: ModalProps) {
+  const tCommon = useTranslations("common");
+  const contentRef = useRef<HTMLDivElement>(null);
+
   // Lock body scroll while the modal is open
   useEffect(() => {
     if (!open) return;
@@ -57,6 +67,52 @@ export function Modal({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
+  // Focus trap: move focus into the modal on open, keep Tab cycling
+  // inside it, and restore focus to the previously-focused element on
+  // close. Uses no library — just a live query of focusable children.
+  useEffect(() => {
+    if (!open) return;
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    const contentEl = contentRef.current;
+    if (!contentEl) return;
+
+    const getFocusable = (): HTMLElement[] =>
+      Array.from(
+        contentEl.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+
+    // Focus the first focusable child on open, or the container itself
+    // if the modal has no interactive elements (rare).
+    const focusables = getFocusable();
+    (focusables[0] ?? contentEl).focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      const items = getFocusable();
+      if (items.length === 0) {
+        e.preventDefault();
+        return;
+      }
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previouslyFocused?.focus?.();
+    };
+  }, [open]);
+
   if (!open) return null;
   if (typeof document === "undefined") return null;
 
@@ -69,11 +125,14 @@ export function Modal({
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
+        ref={contentRef}
+        tabIndex={-1}
         className={`
           hope-fade-in w-full ${maxWidthClassName}
           max-h-[92vh] overflow-y-auto
           rounded-t-sheet bg-paper shadow-hope-lg
           md:rounded-sheet
+          focus:outline-none
         `}
       >
         {/* Header */}
@@ -91,7 +150,7 @@ export function Modal({
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close"
+            aria-label={tCommon("close")}
             className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-ink-55 transition-colors duration-base hover:bg-ink-05 hover:text-ink"
           >
             <X className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
