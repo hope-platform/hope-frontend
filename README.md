@@ -116,3 +116,5 @@ Single source of truth for what's in / out of MVP and how the frontend talks to 
 - `MVP_SCOPE.md` — what ships
 - `DATA_MODEL.md` — every noun
 - `API_CONTRACT.md` — every endpoint
+
+## Project update
